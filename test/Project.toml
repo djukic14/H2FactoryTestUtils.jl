@@ -1,0 +1,35 @@
+[deps]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+BEAST = "bb4162c7-ba94-5a20-af32-d8ec4428bdd1"
+CompScienceMeshes = "3e66a162-7b8c-5da0-b8f8-124ecd2c3ae1"
+H2Factory = "15a95800-2d86-4c02-ab0d-b887130f60ac"
+H2FactoryTestUtils = "a0fc436c-bff3-4a55-806a-7ba6bb3cc4e6"
+H2Trees = "9db26ae3-82ff-4374-85e9-9ed87405fd16"
+JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+# Keep these bounds aligned with the package's test target.
+[compat]
+Aqua = "=0.8.16"
+BEAST = "2.9"
+CompScienceMeshes = "0.11, 0.12"
+H2Factory = "0.1"
+H2FactoryTestUtils = "0.1"
+H2Trees = "0.4"
+JuliaFormatter = "2"
+LinearAlgebra = "1"
+Random = "1"
+StaticArrays = "1"
+Test = "1"
+julia = "1.10"
+
+# Local tests use sibling checkouts; these paths locate packages, not version bounds.
+[sources]
+BEAST = {path = "../../BEAST"}
+CompScienceMeshes = {path = "../../CompScienceMeshes"}
+H2Factory = {path = "../../H2Factory"}
+H2FactoryTestUtils = {path = ".."}
+H2Trees = {path = "../../H2Trees"}

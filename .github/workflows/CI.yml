@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref != 'refs/heads/main') || github.run_number }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+permissions:
+  contents: read
+
+env:
+  PYTHON: ~
+
+jobs:
+  # Matrix brought in line with H2Trees and H2Factory so the package family has ONE convention.
+  # What changed from the previous matrix, and why:
+  #
+  #   * `nightly` moved OUT into Nightly.yml (weekly, `continue-on-error`). As a matrix row it meant
+  #     an upstream pre-release regression reddened every pull request until Julia fixed it, which
+  #     attaches noise to whichever change happened to be open.
+  #   * The `1.6` row is gone. It could never have worked: this package depends on H2Factory, which
+  #     requires `julia = "1.10"`, so 1.6 cannot resolve the dependency at all. `version: min` now
+  #     derives the floor from `[compat] julia` instead of restating it here, so the bound is TESTED
+  #     rather than asserted and cannot drift out of step with Project.toml again.
+  #   * Windows and macOS rows added. The fixtures reach FFTW and BEAST, neither of which is
+  #     obviously platform neutral, and nothing here had ever run off Linux.
+  #   * The 4-thread row: Julia defaults to ONE thread. These helpers exercise H2Factory maps, whose
+  #     traversal is the threaded part, so a single-threaded suite leaves the interesting path cold.
+  #   * Coverage is gated on one row. It used to upload from every row, so a three-row run produced
+  #     three uploads of the same report.
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    permissions: # needed to allow julia-actions/cache to proactively delete old caches that it has created
+      actions: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Julia minimum - Linux - 1 thread
+            version: min
+            os: ubuntu-latest
+            arch: x64
+            threads: '1'
+            coverage: false
+          - name: Julia latest - Linux - 1 thread
+            version: '1'
+            os: ubuntu-latest
+            arch: x64
+            threads: '1'
+            coverage: true
+          - name: Julia latest - Windows - 1 thread
+            version: '1'
+            os: windows-latest
+            arch: x64
+            threads: '1'
+            coverage: false
+          - name: Julia latest - macOS - 1 thread
+            version: '1'
+            os: macos-latest
+            arch: default
+            threads: '1'
+            coverage: false
+          - name: Julia latest - Linux - 4 threads
+            version: '1'
+            os: ubuntu-latest
+            arch: x64
+            threads: '4'
+            coverage: false
+
+    steps:
+      - uses: actions/checkout@v6
+      - uses: julia-actions/setup-julia@v3
+        with:
+          version: ${{ matrix.version }}
+          arch: ${{ matrix.arch }}
+      - uses: julia-actions/cache@v3
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
+        with:
+          coverage: ${{ matrix.coverage }}
+        env:
+          JULIA_NUM_THREADS: ${{ matrix.threads }}
+      - uses: julia-actions/julia-processcoverage@v1
+        if: matrix.coverage
+      - uses: codecov/codecov-action@v6
+        if: matrix.coverage
+        with:
+          files: lcov.info
+          token: ${{ secrets.CODECOV_TOKEN }}

@@ -1,0 +1,42 @@
+name = "H2FactoryTestUtils"
+uuid = "a0fc436c-bff3-4a55-806a-7ba6bb3cc4e6"
+version = "0.1.0"
+authors = ["djukic14 <danijel.jukic14@gmail.com> and contributors"]
+
+[deps]
+CompScienceMeshes = "3e66a162-7b8c-5da0-b8f8-124ecd2c3ae1"
+FFTW = "7a1cc6ca-52ef-59f5-83cd-3a7055c09341"
+H2Factory = "15a95800-2d86-4c02-ab0d-b887130f60ac"
+H2Trees = "9db26ae3-82ff-4374-85e9-9ed87405fd16"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+OhMyThreads = "67456a42-1dca-4109-a031-0a68de7e3ad5"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+RandomizedLinAlg = "0448d7d9-159c-5637-8537-fd72090fea46"
+SparseArrays = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+Aqua = "=0.8.16"
+BEAST = "2.9"
+CompScienceMeshes = "0.11, 0.12"
+FFTW = "1"
+H2Factory = "0.1"
+H2Trees = "0.4"
+JuliaFormatter = "2"
+LinearAlgebra = "1"
+OhMyThreads = "0.8"
+Random = "1"
+RandomizedLinAlg = "0.1"
+SparseArrays = "1"
+StaticArrays = "1"
+Test = "1"
+julia = "1.10"
+
+[extras]
+Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
+BEAST = "bb4162c7-ba94-5a20-af32-d8ec4428bdd1"
+JuliaFormatter = "98e50ef6-434e-11e9-1051-2b60c6c9e899"
+
+[targets]
+test = ["Aqua", "BEAST", "JuliaFormatter"]
