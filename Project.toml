@@ -19,7 +19,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 [compat]
 Aqua = "=0.8.16"
 BEAST = "2.9"
-CompScienceMeshes = "0.11, 0.12"
+CompScienceMeshes = "0.11, 0.12, 1"
 FFTW = "1"
 H2Factory = "0.1"
 H2Trees = "0.4"
