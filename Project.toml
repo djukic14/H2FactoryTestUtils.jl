@@ -17,7 +17,7 @@ StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
 [compat]
-Aqua = "=0.8.16"
+Aqua = "0.8, =0.8.16"
 BEAST = "2.9"
 CompScienceMeshes = "0.11, 0.12"
 FFTW = "1"
